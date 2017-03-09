@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("GEOM")
 
 ##____________________________________________________________________________||
-process.load('Configuration/StandardSequences/GeometryExtended_cff')
+process.load('Configuration.Geometry.GeometryExtended2016_cff')
 
 ##____________________________________________________________________________||
 process.BigXMLWriter = cms.EDAnalyzer(
