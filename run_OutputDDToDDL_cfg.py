@@ -7,12 +7,12 @@ options.inputFiles = 'file:dummry.root',
 options.outputFile = 'dummy.root'
 options.maxEvents = -1
 options.register('geometryConfig',
-                 'Configuration.Geometry.GeometryExtended2016_cff', # default
+                 'Configuration.Geometry.GeometryExtended2017_cff', # default
                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
                  VarParsing.VarParsing.varType.string, # string, int, or float
                  'the geometry config to be loaded')
 options.register('outFilename',
-                 'GeometryExtended2016.xml', # default
+                 'GeometryExtended2017.xml', # default
                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
                  VarParsing.VarParsing.varType.string, # string, int, or float
                  'output XML filename')

@@ -41,9 +41,9 @@ git clone git@github.com:SketchUpCMS/ddtoddl_cfg.git
 ```bash
 cmsRun ddtoddl_cfg/run_OutputDDToDDL_cfg.py
 ```
-By default, it uses the geometry config file [`Configuration.Geometry.GeometryExtended2016_cff`](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2016_cff.py) and create the big XML file `GeometryExtended2016.xml`.
+By default, it uses the geometry config file [`Configuration.Geometry.GeometryExtended2017_cff`](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2017_cff.py) and create the big XML file `GeometryExtended2017.xml`.
 
-The file `GeometryExtended2016.xml` can be used as an input to [SketchUpCMS](https://github.com/SketchUpCMS/SketchUpCMS).
+The file `GeometryExtended2017.xml` can be used as an input to [SketchUpCMS](https://github.com/SketchUpCMS/SketchUpCMS).
 
 You can specify the geometry config and the output XML filename as arguments to `cmsRun`. For example
 ```bash
