@@ -1,16 +1,24 @@
 import FWCore.ParameterSet.Config as cms
 
 ##____________________________________________________________________________||
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--geometry-config', default = 'Configuration.Geometry.GeometryExtended2016_cff', help = 'the geometry config to be loaded')
+parser.add_argument('-o', '--out', default = 'GeometryExtended2016.xml', help = 'output XML filename')
+parser.add_argument('unused', nargs = argparse.REMAINDER, help = '')
+args = parser.parse_args()
+
+##____________________________________________________________________________||
 process = cms.Process("GEOM")
 
 ##____________________________________________________________________________||
-process.load('Configuration.Geometry.GeometryExtended2016_cff')
+process.load(args.geometry_config)
 
 ##____________________________________________________________________________||
 process.BigXMLWriter = cms.EDAnalyzer(
     "OutputDDToDDL",
     rotNumSeed = cms.int32(0),
-    fileName = cms.untracked.string("GeometryExtended.xml")
+    fileName = cms.untracked.string(args.out)
     )
 
 ##____________________________________________________________________________||
