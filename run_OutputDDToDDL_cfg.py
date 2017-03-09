@@ -1,24 +1,34 @@
 import FWCore.ParameterSet.Config as cms
 
 ##____________________________________________________________________________||
-import argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--geometry-config', default = 'Configuration.Geometry.GeometryExtended2016_cff', help = 'the geometry config to be loaded')
-parser.add_argument('-o', '--out', default = 'GeometryExtended2016.xml', help = 'output XML filename')
-parser.add_argument('unused', nargs = argparse.REMAINDER, help = '')
-args = parser.parse_args()
+import FWCore.ParameterSet.VarParsing as VarParsing
+options = VarParsing.VarParsing('analysis')
+options.inputFiles = 'file:dummry.root',
+options.outputFile = 'dummy.root'
+options.maxEvents = -1
+options.register('geometryConfig',
+                 'Configuration.Geometry.GeometryExtended2016_cff', # default
+                 VarParsing.VarParsing.multiplicity.singleton, # singleton or list
+                 VarParsing.VarParsing.varType.string, # string, int, or float
+                 'the geometry config to be loaded')
+options.register('outFilename',
+                 'GeometryExtended2016.xml', # default
+                 VarParsing.VarParsing.multiplicity.singleton, # singleton or list
+                 VarParsing.VarParsing.varType.string, # string, int, or float
+                 'output XML filename')
+options.parseArguments()
 
 ##____________________________________________________________________________||
 process = cms.Process("GEOM")
 
 ##____________________________________________________________________________||
-process.load(args.geometry_config)
+process.load(options.geometryConfig)
 
 ##____________________________________________________________________________||
 process.BigXMLWriter = cms.EDAnalyzer(
     "OutputDDToDDL",
     rotNumSeed = cms.int32(0),
-    fileName = cms.untracked.string(args.out)
+    fileName = cms.untracked.string(options.outFilename)
     )
 
 ##____________________________________________________________________________||
