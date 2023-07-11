@@ -1,0 +1,45 @@
+stages:
+  - build
+  - test
+
+build_9_0_1:
+  stage: build
+  only:
+    - gitlab
+  tags:
+    - cvmfs
+  variables:
+    CMS_PATH: /cvmfs/cms.cern.ch
+    CMSSW_RELEASE: CMSSW_9_0_1
+  script:
+    - /bin/bash ./.gitlab/build.sh
+    - mkdir run
+  artifacts:
+    untracked: true
+    expire_in: 20 minutes
+    paths:
+      - ${CMSSW_RELEASE}
+
+test_9_0_1:
+  stage: test
+  needs: [build_9_0_1]
+  only:
+    - gitlab
+  tags:
+    - cvmfs
+  image:
+    name: gitlab-registry.cern.ch/cms-cloud/cmssw-docker/cc7-cms:latest
+    entrypoint: [""]
+  variables:
+    CMS_PATH: /cvmfs/cms.cern.ch
+    CMSSW_RELEASE: CMSSW_10_6_20
+  script:
+    - shopt -s expand_aliases
+    - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
+    - mkdir run
+    - cp -r ${CMSSW_RELEASE} run/
+    - chmod -R +w run/${CMSSW_RELEASE}/
+    - cd run/${CMSSW_RELEASE}/src
+    - cmsenv
+    - cmsRun run_OutputDDToDDL_cfg.py
+
