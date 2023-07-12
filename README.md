@@ -1,20 +1,48 @@
-
-## ddtoddl_cfg
+# ddtoddl_cfg
 
 This repo contains a simple [Python configuration](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideAboutPythonConfigFile) of [CMSSW](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookCMSSWFramework) for creating a big XML file of the CMS detector geometry that you can use for [SketchUpCMS](https://github.com/SketchUpCMS/SketchUpCMS).
 
 
-### An example usage:
+## Usage
 
-#### Check out CMSSW and enter the CMSSW environment
+### Check out CMSSW and enter the CMSSW environment
+
+New CMSSW releases for now do not have the patch mentioned below. Regardless, this code will work 
+on newer CMSSW releases (such as CMSSW_12_X) but will not have the fixes the patch addresses (for now).
+
+Also, older releases of CMSSW such as CMSSW_9_X no longer can be run on an lxplus-like environment. So the 
+solution is to run in a Docker container with CMSSW_9_X. 
+
+Instructions for both are given below.
+
+#### In an lxplus-like environment
+
 ```bash
-export SCRAM_ARCH=slc6_amd64_gcc530
-cmsrel CMSSW_9_0_0_pre5
-cd CMSSW_9_0_0_pre5/src
+export SCRAM_ARCH=slc7_amd64_gcc10
+scram project CMSSW_12_3_4
+cd CMSSW_12_3_4/src
 cmsenv
 ```
 
-#### Apply a patch to fix the chimney hole on the magnet
+#### In a Docker container
+
+Create and run the Docker container:
+
+```
+docker run -it --rm gitlab-registry.cern.ch/cms-cloud/cmssw-docker/cmssw_9_2_1-slc7_amd64_gcc530:2020-08-25-a8685cef /bin/bash
+```
+
+This will start the container and you will be in the `CMSSW_9_2_1/src` dir:
+
+```
+Setting up CMSSW_9_2_1
+WARNING: Developer's area is created for non-production architecture slc7_amd64_gcc530. Production architecture for this release is slc6_amd64_gcc530.
+CMSSW should now be available.
+[12:38:22] cmsusr@695b565ca016 ~/CMSSW_9_2_1/src $ cmsenv
+```
+
+Apply a patch to fix the chimney hole on the magnet
+
 ```bash
 git cms-init
 git cms-merge-topic -u SketchUpCMS:fix_chimney_hole_9_0_X
@@ -27,17 +55,25 @@ You can read about the disccussion of this patch:
 
 The patch hasn't been merged to CMSSW. But this is necesary for SketchUp.
 
-#### Compile
+Compile: 
+
 ```bash
 scram b -j 9
 ```
 
-#### Check out this repo
+### Check out this repo
 ```bash
 git clone git@github.com:SketchUpCMS/ddtoddl_cfg.git
 ```
 
-#### Create a big XML file
+Note: Unless you also mount your `.ssh` dir when you start the Docker container you will not have ssh access to
+the git repo from within the container. In this case you can:
+
+```bash
+git clone https://github.com/SketchUpCMS/ddtoddl_cfg.git
+```
+
+### Create a big XML file
 ```bash
 cmsRun ddtoddl_cfg/run_OutputDDToDDL_cfg.py
 ```
