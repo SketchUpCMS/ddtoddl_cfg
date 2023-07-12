@@ -87,4 +87,18 @@ cmsRun ddtoddl_cfg/run_OutputDDToDDL_cfg.py geometryConfig=Configuration.Geometr
 ```
 will use one of the Phase 2 upgrade geometry config [`Configuration.Geometry.GeometryExtended2023D11_cff`](https://github.com/cms-sw/cmssw/blob/CMSSW_9_0_0_pre5/Configuration/Geometry/python/GeometryExtended2023D11_cff.py) and create a big XML file  with the filename `GeometryExtended2023D11.xml`.
 
+### Create a file for Phase 2 upgrades (including HGCAL)
 
+In CMSSW_13_0_X (tested with CMSSW_13_0_3 on lxplus8.cern.ch) using 
+
+```bash
+git cms-init
+git cms-merge-topic -u SketchUpCMS:fix_chimney_hole_13_0_X
+```
+after compilation run 
+
+```bash
+cmsRun ddtoddl_cfg/run_OutputDDToDDL_cfg.py geometryConfig=Configuration.Geometry.GeometryExtended2026D88_cff outFilename=GeometryExtended2026D88.xml
+```
+
+where D88 in CMSSW_13_0_3 denotes the [Current Phase-2 baseline](https://github.com/cms-sw/cmssw/tree/CMSSW_13_0_3/Configuration/Geometry)
